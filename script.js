@@ -26,6 +26,9 @@ let downs;
 let lefts;
 let rights;
 let centers;
+let ballX;
+let ballY;
+let ballSpeed;
 
 function setup() {
   canvasDiv = createDiv();
@@ -43,7 +46,11 @@ function setup() {
   rights = 0;
   centers = 0;
   // new code below
-
+  ballX = width / 2;
+  ballY = hieght / 2;
+  ballSpeed  = 5;
+  video = createCapture(VIDEO, videoReady);
+  video.parent
 }
 
 function draw() {
@@ -129,12 +136,16 @@ function buildButtons() {
 function videoReady() {
   video.style("display", "none");
   // new code below
-
+  video.style("transform", "scale(-1, 1)");
   featureExtractor = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
 }
 
 function featureExtractorLoaded() {
-
+  knnClassifier = ml5.KNNClassifier();
+  knnClassifier.load("model/", function() {
+    isModelReady = true;
+    textP.html("begin posting and adding ");
+  });
 }
 
 function gotResults(error, results) {
